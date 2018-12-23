@@ -1,0 +1,30 @@
+1, 修改内部zk的配置文件(config/zookeeper.properties)
+dataDir={指定的数据文件存放路径，如：D:/kafka_2.11-2.0.0/data/zk}
+2，修改server.properties配置文件
+log.dirs={指定的数据文件存放路径，如：D:/kafka_2.11-2.0.0/data/kafka}
+
+3，打开本机访问和设置外网访问
+listeners=PLAINTEXT://:9092
+advertised.listeners=PLAINTEXT://{your.host.name}:9092  为运行的电脑设置一个域名对应关系 linux /etc/hosts
+
+4，配置zookeeper服务器地址(可选)
+zookeeper.connect=localhost:2181
+
+5，启动zookeeper
+bin\windows\zookeeper-server-start.bat config\zookeeper.properties
+
+6，启动kafka服务器
+bin\windows\kafka-server-start.bat config\server.properties
+
+7，显示kafka服务器中已有的主题
+bin\windows\kafka-topics.bat --list --zookeeper localhost:2181
+
+8，创建主题
+bin\windows\kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 4 --topic test
+
+9，向主题发送消息
+bin\windows\kafka-console-producer.bat --broker-list localhost:9092 --topic test
+
+10，消费主题(每个消费者都会收到同一个消息)
+bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic test --from-beginning
+--from-beginning 参数说明要不要接收历史消息
