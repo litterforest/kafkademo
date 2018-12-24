@@ -28,3 +28,6 @@ bin\windows\kafka-console-producer.bat --broker-list localhost:9092 --topic test
 10，消费主题(每个消费者都会收到同一个消息)
 bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic test --from-beginning
 --from-beginning 参数说明要不要接收历史消息
+
+11，查看消费者的消费情况
+kafka-consumer-groups.bat --bootstrap-server 10.101.10.144:9092 --describe --group myGroup
