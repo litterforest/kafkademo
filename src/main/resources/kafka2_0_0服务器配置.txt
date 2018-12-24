@@ -31,3 +31,5 @@ bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic
 
 11，查看消费者的消费情况
 kafka-consumer-groups.bat --bootstrap-server 10.101.10.144:9092 --describe --group myGroup
+
+12，topic里面的消息只会被消费组中的一个消费者处理 group.id = myGroup
