@@ -18,6 +18,10 @@ cloud:
       bindings:
         output:
           destination: xhg_heartbeat_err_topic
+          producer:
+            # 分区索引表达式
+            partitionKeyExpression: payload.hashCode() % 3
+            partitionCount: 4
       kafka:
         binder:
           brokers: 10.101.10.144:9092
@@ -30,6 +34,14 @@ spring:
         input:
           destination: xhg_heartbeat_err_topic
           group: myGroup
+          consumer:
+            partitioned: true
+            # 开启两个实例
+            instanceCount: 2
+            # 实例编号从0开始
+            instanceIndex: 0
+            # 每个实例起动多少个consumer
+            concurrency: 4
       kafka:
         binder:
           brokers: 10.101.10.144:9092
