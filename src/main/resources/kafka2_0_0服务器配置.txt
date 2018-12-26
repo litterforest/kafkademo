@@ -18,7 +18,7 @@ bin\windows\kafka-server-start.bat config\server.properties
 
 7，显示kafka服务器中已有的主题
 bin\windows\kafka-topics.bat --list --zookeeper localhost:2181
-  查看主题详情 bin\windows\kafka-topics.bat --describe --zookeeper 10.101.10.144:2181 --topic streamtest
+*查看主题详情 bin\windows\kafka-topics.bat --describe --zookeeper 10.101.10.144:2181 --topic streamtest
 
 8，创建主题
 bin\windows\kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 4 --topic test
@@ -32,7 +32,7 @@ bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic
 
 11，查看消费者的消费情况
 bin\windows\kafka-consumer-groups.bat --bootstrap-server 10.101.10.144:9092 --describe --group myGroup
-重置topic的offset
+*重置topic的offset
 bin\windows\kafka-consumer-groups.bat --bootstrap-server 10.101.10.144:9092 --group myGroup --reset-offsets --topic xhg_heartbeat_err_topic --to-offset 2731249 --execute
 
 12，topic里面的消息只会被消费组中的一个消费者处理 group.id = myGroup
