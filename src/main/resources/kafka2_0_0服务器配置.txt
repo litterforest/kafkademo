@@ -30,8 +30,8 @@ bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic
 --from-beginning 参数说明要不要接收历史消息
 
 11，查看消费者的消费情况
-bin\kafka-consumer-groups.bat --bootstrap-server 10.101.10.144:9092 --describe --group myGroup
+bin\windows\kafka-consumer-groups.bat --bootstrap-server 10.101.10.144:9092 --describe --group myGroup
 重置topic的offset
-bin\kafka-consumer-groups.bat --bootstrap-server 10.101.10.144:9092 --group myGroup --reset-offsets --topic xhg_heartbeat_err_topic --to-offset 2731249 --execute
+bin\windows\kafka-consumer-groups.bat --bootstrap-server 10.101.10.144:9092 --group myGroup --reset-offsets --topic xhg_heartbeat_err_topic --to-offset 2731249 --execute
 
 12，topic里面的消息只会被消费组中的一个消费者处理 group.id = myGroup
