@@ -36,3 +36,50 @@ bin\windows\kafka-consumer-groups.bat --bootstrap-server 10.101.10.144:9092 --de
 bin\windows\kafka-consumer-groups.bat --bootstrap-server 10.101.10.144:9092 --group myGroup --reset-offsets --topic xhg_heartbeat_err_topic --to-offset 2731249 --execute
 
 12，topic里面的消息只会被消费组中的一个消费者处理 group.id = myGroup
+
+13, 为主题重新分配分区和副本数
+bin\windows\kafka-reassign-partitions.bat --zookeeper server-a:2181,server-b:2181,server-c:2181 --reassignment-json-file a.json --execute
+
+###############################################【kafka集群配置】###################################################
+准备：
+3台主机，分别需要设置上hostname /etc/hosts  需要关闭防火墙的干扰
+192.168.58.128 server-a
+192.168.58.129 server-b
+192.168.58.130 server-c
+
+zookeeper:
+1, 设置集群的主机数据,在数据目录下创建myid文件，写入0,1,2等主机索引号，对应关系如下：
+192.168.58.128:2888:3888 server-a 0
+192.168.58.129:2888:3888 server-b 1
+192.168.58.130:2888:3888 server-c 2
+
+# zookeeper.properties配置文件中添加
+# 集群中的选举算法
+initLimit=15
+syncLimit=5
+
+server.0=server-a:2888:3888
+server.1=server-a:2888:3888
+server.2=server-a:2888:3888
+
+2, 在zk的数据目录下增加myid文件，内容为节点索引。
+
+kafka配置：在server.properties配置文件中添加
+broker.id=0
+# 设置内网访问
+listeners = PLAINTEXT://your.host.name:9092
+# 设置外网访问
+advertised.listeners=PLAINTEXT://your.host.name:9092
+# 数据文件存放的目录
+log.dirs=/var/data/kafka-logs
+# 主题的分区数量，一般等于集群中每个机器cpu核数的总和
+num.partitions=3
+# 消息的默认副本数量
+default.replication.factor=3
+
+# 设置zk的集群主机
+zookeeper.connect=server-a:2181,server-b:2181,server-c:2181
+
+手工创建带有副本的主题(50个partition)：__consumer_offsets
+系统自动创建的可能只有一个副本，容易产生单点故障。
+
