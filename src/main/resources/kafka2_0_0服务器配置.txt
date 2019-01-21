@@ -76,6 +76,10 @@ log.dirs=/var/data/kafka-logs
 num.partitions=3
 # 消息的默认副本数量
 default.replication.factor=3
+# 关注这三个配置项
+offsets.topic.replication.factor=3
+transaction.state.log.replication.factor=3
+transaction.state.log.min.isr=3
 
 # 设置zk的集群主机
 zookeeper.connect=server-a:2181,server-b:2181,server-c:2181
